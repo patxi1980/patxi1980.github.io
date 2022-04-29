@@ -48,13 +48,14 @@ const elements = [
         "element": "wr"
     },
     {
+        "element_type": "primal",
+        "element": "pr"
+    },
+    {
         "element_type": "wind",
         "element": "wd"
     },
-    {
-        "element_type": "primal",
-        "element": "pr"
-    }
 ];
 
 const elementsIndex = ["e", "f", "w", "p", "el", "i", "m", "d", "l", "pu", "li", "wr", "pr", "wd"];
+const ancientElements = ["mg", "so", "ch", "dr", "bt", "hp", "an"];

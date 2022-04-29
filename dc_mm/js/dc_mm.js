@@ -189,13 +189,36 @@ moveTry = function() {
     gameTriesOldElementsContainerRow.prepend(oldTry);
 }
 
-
-const initGame = event => {
-
+selectDragon = function() {
     dragonPosition = randomDragonPosition();
     dragon = dragons[dragonPosition];
 
     dragonElements = convertDragonElements(dragon.attributes);
+}
+
+checkIsValidSelectedDragon = function() {
+    dragonElements.forEach(function (elementToCheck) {
+        if (ancientElements.includes(elementToCheck)) {
+            return false;
+        }
+    })
+
+    return true;
+}
+
+const initGame = event => {
+
+    isValidDragon = false;
+    checks = 0;
+
+    while(!isValidDragon && checks < 100) {
+        selectDragon();
+        checks++;
+
+        if (checkIsValidSelectedDragon()) {
+            isValidDragon = true;
+        }
+    }
 
     selectElements = JSON.parse(JSON.stringify(dragonElements));
 
