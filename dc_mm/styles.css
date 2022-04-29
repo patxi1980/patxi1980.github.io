@@ -1,170 +1,37 @@
-
-body,
-* {
+body, * {
   font-family: "Roboto Mono", monospace;
-  padding: 0;
-  margin: 0;
-
-  --grey: #aaa;
-  --black: #000;
-  --white: #fff;
 }
 
-.container {
-}
-
-.canvas {
-  margin: 0 auto 40px;
-}
-
-.canvas__title {
-  font-size: 40px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  line-height: 100px;
-  margin-bottom: 0px;
-  text-align: center;
-}
-
-.canvas__title--js {
-  font-weight: 200;
-  font-size: 30px;
-}
-
-.canvas__input {
-  background: transparent;
-  border: 0px;
-  border-bottom: 10px solid var(--black);
-  display: block;
-  font-size: 90px;
-  font-weight: 700;
-  letter-spacing: 20px;
-  line-height: 100px;
-  margin: 0 auto 4px;
-  width: 320px;
-  padding: 0;
-  text-align: center;
-}
-
-.canvas__input:focus {
-  outline: none;
-}
-
-.canvas__input:disabled {
-  border-color: var(--grey);
-}
-
-.canvas__results {
-  margin: 20px auto;
-  line-height: 28px;
-  width: 320px;
-}
-
-.canvas__result {
-  border-bottom: 1px dashed var(--black);
-  display: flex;
-  justify-content: stretch;
-  line-height: 40px;
+.container .row {
   margin-bottom: 10px;
-  padding: 0 0 10px 10px;
-  text-align: right;
 }
 
-.canvas__guess {
-  flex: 1;
-  font-weight: 700;
-  font-size: 30px;
-  letter-spacing: 10px;
-  text-align: left;
+#main {
+  max-width: 800px;
 }
 
-.canvas__success {
-  flex: 1;
-  font-size: 30px;
-  letter-spacing: 10px;
+#game_final_result {
+  padding: 10px;
+
 }
 
-.canvas__highscore {
-  background-color: var(--grey);
-  color: var(--white);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  line-height: 40px;
-  margin: 20px auto;
+#game_final_result_text {
+  font-size: 200%;
   text-transform: uppercase;
   text-align: center;
-  width: 320px;
-}
-
-.canvas__notification {
-  color: var(--grey);
-  font-size: 20px;
-  font-weight: 400;
-  padding: 10px 0;
-  text-align: center;
-}
-
-.canvas__results {
-  font-size: 20px;
-  letter-spacing: 1px;
-  text-align: center;
-}
-
-.glossary {
-  border-bottom: 2px dashed var(--grey);
-  font-size: 14px;
-  margin: 0 auto 40px;
-  max-width: 300px;
-  padding-bottom: 40px;
-}
-
-.reset-button {
-  background-color: var(--grey);
-  border: 0;
-  color: var(--white);
-  cursor: pointer;
   display: block;
-  font-family: "Roboto Mono", monospace;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  line-height: 16px;
-  margin: 0 auto 60px;
-  padding: 4px 10px;
-  text-transform: uppercase;
-  transition: background-color 0.2s;
 }
 
-.reset-button:hover {
-  background-color: var(--black);
-}
-
-.rules {
-  font-size: 14px;
-  margin: 0 auto 20px;
-  max-width: 300px;
-}
-
-.rules__h2 {
-  border-bottom: 4px solid var(--black);
-  padding: 0 0 20px;
-  margin: 0 0 20px;
-}
-
-.rules__p {
-  font-size: 16px;
-  margin: 0 0 20px;
-}
-
-.footer {
-  font-size: 12px;
-  line-height: 24px;
-  padding: 20px 0;
+#game_final_result_name {
+  font-size: 150%;
   text-align: center;
-}
-.footer img {
   display: block;
-  margin: 0 auto;
-  width: 60px;
+}
+
+div.correct {
+  background-color: #000;
+}
+
+div.moved {
+  background-color: #888;
 }
