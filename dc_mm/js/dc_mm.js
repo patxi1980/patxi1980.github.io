@@ -45,7 +45,7 @@ createGameSelectElement = function(elementId, container, elementIdPrefix, addLis
     elementImage.alt = element.element_type;
 
     elementObject = document.createElement('div');
-    elementObject.className = "col";
+    elementObject.classList.add("col", "dragon_element_column")
     elementObject.id = elementIdPrefix+'_'+element.element;
     elementObject.value = element.element;
     elementObject.append(elementImage);

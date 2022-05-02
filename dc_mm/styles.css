@@ -29,9 +29,14 @@ body, * {
 }
 
 div.correct {
-  background-color: #000;
+  background-color: #6aaa64;
 }
 
 div.moved {
-  background-color: #888;
+  background-color: #c9b458;
+}
+
+.dragon_element_column {
+  max-width: 100px;
+  width: 100px;
 }
