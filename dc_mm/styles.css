@@ -37,6 +37,20 @@ div.moved {
 }
 
 .dragon_element_column {
-  max-width: 100px;
-  width: 100px;
+  max-width: 50px;
+  width: 50px;
+}
+
+#game_tries_elements_container_row .dragon_element_column {
+  max-width: 80px;
+  width: 80px;
+}
+
+#game_tries_old_elements_container_row .dragon_element_column {
+  max-width: 80px;
+  width: 80px;
+}
+
+#game_form {
+  display: none;
 }
