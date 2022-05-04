@@ -4,6 +4,9 @@ const gameFormButton = document.getElementById('game_form_button');
 const gameFormTries = document.getElementById('game_form_tries');
 const gameFormElems = document.getElementById('game_form_elems');
 
+let gameFormTriesValue = 7;
+let gameFormElemsValue = 14;
+
 const gameSelect = document.getElementById('game_select');
 const gameSelectContainerRow = document.getElementById('game_select_container_row');
 
@@ -40,7 +43,7 @@ createGameSelectElement = function(elementId, container, elementIdPrefix, addLis
     element = getElementById(elementId);
 
     elementImage = document.createElement('img');
-    elementImage.src = 'https://deetlist.com/dragoncity/img/types/'+element.element_type+'.png';
+    elementImage.src = 'images/'+element.element_type+'.png';
     elementImage.className = 'mx-auto d-block';
     elementImage.alt = element.element_type;
 
@@ -95,7 +98,10 @@ convertDragonElements = function(stringElements) {
 }
 
 generateSelectElements = function (selectElements) {
-    while (selectElements.length < gameFormElems.value) {
+
+    return elementsIndex;
+    /**
+    while (selectElements.length < gameFormElemsValue) {
         elementPosition = getRandomElementPosition();
 
         elementIndex = elementsIndex[elementPosition];
@@ -104,6 +110,9 @@ generateSelectElements = function (selectElements) {
             selectElements.push(elementIndex);
         }
     }
+     */
+
+    selected
 
     return selectElements;
 }
@@ -170,7 +179,7 @@ checkTry = function() {
     tries++;
 
 
-    if (tries >= gameFormTries.value) {
+    if (tries >= gameFormTriesValue) {
         return youLose();
     }
 
@@ -206,7 +215,13 @@ checkIsValidSelectedDragon = function() {
     return true;
 }
 
-const initGame = event => {
+initGame = function() {
+
+    gameFormDiv.style.display = 'none';
+
+    gameFinalResult.style.display = 'block';
+    gameTriesElements.style.display = 'block';
+    gameSelect.style.display = 'block';
 
     isValidDragon = false;
     checks = 0;
@@ -223,7 +238,7 @@ const initGame = event => {
     selectElements = JSON.parse(JSON.stringify(dragonElements));
 
     selectElements = generateSelectElements(selectElements);
-    shuffleArray(selectElements);
+    //shuffleArray(selectElements);
 
     buildGameSelect(selectElements);
 }
@@ -231,13 +246,11 @@ const initGame = event => {
 
 const submitForm = event => {
     event.preventDefault();
-    gameFormDiv.style.display = 'none';
 
-    gameFinalResult.style.display = 'block';
-    gameTriesElements.style.display = 'block';
-    gameSelect.style.display = 'block';
+    gameFormElemsValue = gameFormElems.value;
+    gameFormTriesValue = gameFormTries.value;
 
-    return initGame(event);
+    initGame();
 }
 
 clearAll = function() {
@@ -249,7 +262,8 @@ clearAll = function() {
 
 const start = () => {
     clearAll();
-    gameFormForm.addEventListener('submit', submitForm);
+    initGame();
+    //gameFormForm.addEventListener('submit', submitForm);
 }
 
 start();
