@@ -1,28 +1,23 @@
-const gameFormDiv = document.getElementById('game_form');
-const gameFormForm = document.getElementById('game_form_form');
-const gameFormButton = document.getElementById('game_form_button');
-const gameFormTries = document.getElementById('game_form_tries');
-const gameFormElems = document.getElementById('game_form_elems');
-
-let gameFormTriesValue = 7;
-let gameFormElemsValue = 14;
+const gameFormTriesValue = 6;
 
 const gameSelect = document.getElementById('game_select');
 const gameSelectContainerRow = document.getElementById('game_select_container_row');
 
 const gameTriesElements = document.getElementById('game_tries_elements');
-const gameTriesElementsContainerRow = document.getElementById('game_tries_elements_container_row');
-const gameTriesOldElementsContainerRow = document.getElementById('game_tries_old_elements_container_row');
+const gameTriesElementsContainer = document.getElementById('game_tries_elements_container');
 
 const gameFinalResult = document.getElementById('game_final_result');
 const gameFinalResultText = document.getElementById('game_final_result_text');
 const gameFinalResultName = document.getElementById('game_final_result_name');
 const gameFinalResultDragon = document.getElementById('game_final_result_dragon');
 const gameFinalResultElements = document.getElementById('game_final_result_elements');
+const gameFinalResultCopyText = document.getElementById('game_final_result_copy_text');
+const gameFinalResultCopyButton = document.getElementById('game_final_result_copy_button');
 
 let tries = 1;
 let isCalculating = false;
 let numberOfOks = 0;
+let triesPos = 1;
 
 let dragon = null;
 let dragonElements = [];
@@ -59,25 +54,20 @@ createGameSelectElement = function(elementId, container, elementIdPrefix, addLis
     container.append(elementObject);
 }
 
-shuffleArray = function (array) {
-    var currentIndex = array.length;
-    var temporaryValue, randomIndex;
+addElementToGrid = function(elementId) {
+    element = getElementById(elementId);
 
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
+    elementImage = document.createElement('img');
+    elementImage.src = 'images/'+element.element_type+'.png';
+    elementImage.classList.add('mx-auto', 'd-block', 'row_element_img');
+    elementImage.alt = element.element_type;
 
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+    elementColumn = document.getElementById("game_tries_elements_container_row_element_"+tries+"_"+triesPos);
+    elementColumn.value = element.element;
+    elementColumn.append(elementImage);
 
-    return array;
-
-};
+    triesPos++;
+}
 
 buildGameSelect = function(elements) {
     elements.forEach(function(element) {
@@ -98,41 +88,27 @@ convertDragonElements = function(stringElements) {
 }
 
 generateSelectElements = function (selectElements) {
-
     return elementsIndex;
-    /**
-    while (selectElements.length < gameFormElemsValue) {
-        elementPosition = getRandomElementPosition();
-
-        elementIndex = elementsIndex[elementPosition];
-
-        if (!selectElements.includes(elementIndex)) {
-            selectElements.push(elementIndex);
-        }
-    }
-     */
-
-    selected
-
-    return selectElements;
 }
 
 clickElement = function(event) {
     if (isCalculating) {
         return;
     }
-    createGameSelectElement(event.currentTarget.value, gameTriesElementsContainerRow, 'game_select_'+tries+'_'+gameTriesElementsContainerRow.childElementCount,false);
+    addElementToGrid(event.currentTarget.value);
 
-    if (gameTriesElementsContainerRow.childElementCount >= 4) {
+    if (triesPos > 4) {
         checkTry();
     }
 }
 
 showResult = function(result) {
+    gameFinalResult.style.display = 'block';
     gameTriesElements.style.display = 'none';
     gameSelect.style.display = 'none';
 
     gameFinalResultText.textContent = 'YOU '+result;
+    gameFinalResultText.classList.add(result);
     gameFinalResultName.textContent = dragon.name;
 
     elementImage = document.createElement('img');
@@ -146,7 +122,38 @@ showResult = function(result) {
         createGameSelectElement(element, gameFinalResultElements, 'game_final_result_elements',false);
     });
 
+    let copyText = '';
 
+    let triesText = '';
+
+    if (result == 'lose') {
+        triesText = 'X';
+    } else {
+        triesText = tries;
+    }
+
+    tries = Math.min(tries, gameFormTriesValue);
+
+    copyText += 'Dragondle '+triesText+'/'+gameFormTriesValue+"\n\r";
+
+    for (let i = 1; i <= tries; i++) {
+
+        for (let j = 1; j <= 4; j++) {
+            if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('moved')) {
+                copyText += '🟨';
+            } else if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('correct')) {
+                copyText += '🟩';
+            } else {
+                copyText += '⬜';
+            }
+        }
+        copyText += "\n\r";
+    }
+    copyText += window.location.href;
+
+    gameFinalResultCopyText.innerHTML = copyText;
+
+    gameFinalResultCopyButton.addEventListener('click', copyResultToClipboard);
 }
 
 youWin = function() {
@@ -161,7 +168,9 @@ checkTry = function() {
     isCalculating = true;
     numberOfOks = 0;
 
-    gameTriesElementsContainerRow.childNodes.forEach(function(node, index) {
+    let gameTriesElementsContainer = document.getElementById("game_tries_elements_container_row_"+tries);
+
+    gameTriesElementsContainer.childNodes.forEach(function(node, index) {
         if (node.value.toString() == dragonElements[index].toString()) {
             node.classList.add('correct');
             numberOfOks++;
@@ -174,28 +183,15 @@ checkTry = function() {
     if (numberOfOks === 4) {
         return youWin();
     }
-    moveTry();
 
     tries++;
+    triesPos = 1;
 
-
-    if (tries >= gameFormTriesValue) {
+    if (tries > gameFormTriesValue) {
         return youLose();
     }
 
     isCalculating = false;
-
-
-}
-
-moveTry = function() {
-    oldTry = document.createElement('div');
-    oldTry.className = "row";
-    oldTry.id = 'old_try_'+tries;
-
-    oldTry.append(...gameTriesElementsContainerRow.childNodes);
-
-    gameTriesOldElementsContainerRow.prepend(oldTry);
 }
 
 selectDragon = function() {
@@ -215,11 +211,41 @@ checkIsValidSelectedDragon = function() {
     return true;
 }
 
+copyResultToClipboard = function(event) {
+
+    var myTemporaryInputElement = document.createElement("textarea");
+    myTemporaryInputElement.value = gameFinalResultCopyText.innerHTML;
+
+    document.body.appendChild(myTemporaryInputElement);
+
+    myTemporaryInputElement.select();
+    document.execCommand("Copy");
+
+    document.body.removeChild(myTemporaryInputElement);
+}
+
+buildGrid = function() {
+
+    for (let i = 1; i <= gameFormTriesValue; i++) {
+
+        triesRow = document.createElement('div');
+        triesRow.classList.add("row", "tries_element_row");
+        triesRow.id = "game_tries_elements_container_row_"+i;
+
+        for (let j = 1; j <= 4; j++) {
+            triesRowElement = document.createElement('div');
+            triesRowElement.classList.add("col", "tries_element");
+            triesRowElement.id = "game_tries_elements_container_row_element_" + i + "_" + j;
+            triesRow.append(triesRowElement);
+        }
+
+        gameTriesElementsContainer.append(triesRow);
+    }
+}
+
 initGame = function() {
 
-    gameFormDiv.style.display = 'none';
-
-    gameFinalResult.style.display = 'block';
+    gameFinalResult.style.display = 'none';
     gameTriesElements.style.display = 'block';
     gameSelect.style.display = 'block';
 
@@ -238,19 +264,10 @@ initGame = function() {
     selectElements = JSON.parse(JSON.stringify(dragonElements));
 
     selectElements = generateSelectElements(selectElements);
-    //shuffleArray(selectElements);
 
     buildGameSelect(selectElements);
-}
 
-
-const submitForm = event => {
-    event.preventDefault();
-
-    gameFormElemsValue = gameFormElems.value;
-    gameFormTriesValue = gameFormTries.value;
-
-    initGame();
+    buildGrid();
 }
 
 clearAll = function() {
@@ -272,7 +289,6 @@ const start = () => {
     clearAll();
     initGa();
     initGame();
-    //gameFormForm.addEventListener('submit', submitForm);
 }
 
 start();
