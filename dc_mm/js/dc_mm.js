@@ -197,8 +197,20 @@ checkTry = function() {
 selectDragon = function() {
     dragonPosition = randomDragonPosition();
     dragon = dragons[dragonPosition];
-
     dragonElements = convertDragonElements(dragon.attributes);
+
+    ancientDragon = false;
+
+    dragonElements.forEach(function(dragonElement) {
+        if (ancientElements.includes(dragonElement)){
+            ancientDragon = true;
+        }
+    });
+
+    if (ancientDragon) {
+        selectDragon();
+    }
+
 }
 
 checkIsValidSelectedDragon = function() {
