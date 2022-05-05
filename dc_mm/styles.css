@@ -107,6 +107,10 @@ img.row_element_img {
   border: 0;
 }
 
+#game_final_result_play_dc {
+  border: 0
+}
+
 #game_final_result_copy_text {
   display: none;
 }

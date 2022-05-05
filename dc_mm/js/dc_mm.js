@@ -38,7 +38,7 @@ createGameSelectElement = function(elementId, container, elementIdPrefix, addLis
     element = getElementById(elementId);
 
     elementImage = document.createElement('img');
-    elementImage.src = 'images/'+element.element_type+'.png';
+    elementImage.src = 'images/elements/'+element.element_type+'.png';
     elementImage.className = 'mx-auto d-block';
     elementImage.alt = element.element_type;
 
@@ -58,7 +58,7 @@ addElementToGrid = function(elementId) {
     element = getElementById(elementId);
 
     elementImage = document.createElement('img');
-    elementImage.src = 'images/'+element.element_type+'.png';
+    elementImage.src = 'images/elements/'+element.element_type+'.png';
     elementImage.classList.add('mx-auto', 'd-block', 'row_element_img');
     elementImage.alt = element.element_type;
 
@@ -222,6 +222,8 @@ copyResultToClipboard = function(event) {
     document.execCommand("Copy");
 
     document.body.removeChild(myTemporaryInputElement);
+
+    gameFinalResultCopyButton.textContent = 'COPIED!';
 }
 
 buildGrid = function() {
