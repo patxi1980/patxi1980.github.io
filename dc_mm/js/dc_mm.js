@@ -259,9 +259,18 @@ clearAll = function() {
     gameSelect.style.display = 'none';
 }
 
+initGa = function() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('js', new Date());
+    gtag('config', 'G-9JN14CDDYZ');
+}
+
 
 const start = () => {
     clearAll();
+    initGa();
     initGame();
     //gameFormForm.addEventListener('submit', submitForm);
 }
