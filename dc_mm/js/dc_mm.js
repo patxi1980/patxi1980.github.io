@@ -134,7 +134,7 @@ showResult = function(result) {
 
     tries = Math.min(tries, gameFormTriesValue);
 
-    copyText += 'Dragondle '+triesText+'/'+gameFormTriesValue+"\n\r";
+    copyText += 'Dragondle '+triesText+'/'+gameFormTriesValue+"\n";
 
     for (let i = 1; i <= tries; i++) {
 
@@ -147,7 +147,7 @@ showResult = function(result) {
                 copyText += '⬜';
             }
         }
-        copyText += "\n\r";
+        copyText += "\n";
     }
     copyText += window.location.href;
 
