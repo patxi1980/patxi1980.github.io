@@ -22,10 +22,7 @@ let triesPos = 1;
 let dragon = null;
 let dragonElements = [];
 
-
-
 getElementById = function (elementId) {
-
     for (i = 0; i < elements.length; i++) {
         if (elements[i].element == elementId) {
             return elements[i];
@@ -92,10 +89,14 @@ generateSelectElements = function (selectElements) {
 }
 
 clickElement = function(event) {
+
+    elementId = event.currentTarget.value;
+
+    gtag('event', 'clickElement', {'event_category': elementId, 'event_label': elementId, 'value': 1});
     if (isCalculating) {
         return;
     }
-    addElementToGrid(event.currentTarget.value);
+    addElementToGrid(elementId);
 
     if (triesPos > 4) {
         checkTry();
@@ -103,6 +104,7 @@ clickElement = function(event) {
 }
 
 showResult = function(result) {
+    gtag('event', 'showResult', {'event_category': result, 'event_label': result, 'value': 1});
     gameFinalResult.style.display = 'block';
     gameTriesElements.style.display = 'none';
     gameSelect.style.display = 'none';
@@ -180,6 +182,8 @@ checkTry = function() {
 
     });
 
+    gtag('event', 'checkTry', {'event_category': tries, 'event_label': tries, 'value': 1});
+
     if (numberOfOks === 4) {
         return youWin();
     }
@@ -225,6 +229,8 @@ checkIsValidSelectedDragon = function() {
 
 copyResultToClipboard = function(event) {
 
+    gtag('event', 'copyResult', {'event_category': 'copy', 'event_label': 'copy', 'value': 1});
+
     var myTemporaryInputElement = document.createElement("textarea");
     myTemporaryInputElement.value = gameFinalResultCopyText.innerHTML;
 
@@ -259,6 +265,7 @@ buildGrid = function() {
 
 initGame = function() {
 
+    gtag('event', 'initGame', {'event_category': 'initGame', 'event_label': 'initGame', 'value': 1});
     gameFinalResult.style.display = 'none';
     gameTriesElements.style.display = 'block';
     gameSelect.style.display = 'block';
@@ -292,10 +299,13 @@ clearAll = function() {
 
 initGa = function() {
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
 
     gtag('js', new Date());
     gtag('config', 'G-9JN14CDDYZ');
+}
+
+gtag = function (){
+    dataLayer.push(arguments);
 }
 
 
