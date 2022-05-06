@@ -301,7 +301,11 @@ initGa = function() {
     window.dataLayer = window.dataLayer || [];
 
     gtag('js', new Date());
-    gtag('config', 'G-9JN14CDDYZ');
+    if (window.location.href.includes('localhost')) {
+        gtag('config', 'G-DKLT0JV4PF');
+    } else {
+        gtag('config', 'G-9JN14CDDYZ');
+    }
 }
 
 gtag = function (){
