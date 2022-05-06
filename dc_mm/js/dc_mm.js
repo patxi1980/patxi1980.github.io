@@ -142,11 +142,11 @@ showResult = function(result) {
 
         for (let j = 1; j <= 4; j++) {
             if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('moved')) {
-                copyText += '🟨';
+                copyText += ":large_yellow_square:";
             } else if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('correct')) {
-                copyText += '🟩';
+                copyText += ":large_green_square:";
             } else {
-                copyText += '⬜';
+                copyText += ":white_large_square:";
             }
         }
         copyText += "\n";
