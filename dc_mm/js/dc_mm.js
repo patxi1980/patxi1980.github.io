@@ -106,7 +106,7 @@ clickElement = function(event) {
 
 showResult = function(result) {
     gtag('event', 'showResult', {'event_category': result, 'event_label': result, 'value': 1});
-    gtag('event', 'show_result_'+result, {'event_category': result, 'event_label': result, 'value': 1});
+    gtag('event', 'show_result_'+result+'_'+tries, {'event_category': result, 'event_label': result, 'value': 1});
     gameFinalResult.style.display = 'block';
     gameTriesElements.style.display = 'none';
     gameSelect.style.display = 'none';
@@ -305,7 +305,8 @@ initGa = function() {
 
     gtag('js', new Date());
     if (window.location.href.includes('localhost')) {
-        gtag('config', 'G-DKLT0JV4PF');
+        gtag('config', 'G-DKLT0JV4PF',{ 'debug_mode': true });
+        console.log('debug mode on');
     } else {
         gtag('config', 'G-9JN14CDDYZ');
     }
