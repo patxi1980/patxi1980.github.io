@@ -61,14 +61,14 @@ div.incorrect {
 }
 
 #header div h1 {
-  font-size: 26px;
+  font-size: 24px;
   text-align: left;
   padding: 2px;
   padding-top: 5px;
 }
 
 #help_button {
-  padding-left: 25px;
+  padding-left: 20px;
   margin-top: 5px;
   font-weight: bold;
 }
@@ -103,7 +103,7 @@ img.mx-auto {
 
 #game_select_container div.dragon_element_column {
   width: 42px;
-  max-width: 52px;
+  max-width: 47px;
 }
 
 div.tries_element_row {
