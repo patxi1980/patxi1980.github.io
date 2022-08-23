@@ -22,12 +22,14 @@ body, * {
   text-transform: uppercase;
   text-align: center;
   display: block;
+  margin-bottom: 5px
 }
 
 #game_final_result_name {
   font-size: 150%;
   text-align: center;
   display: block;
+  margin: 0;
 }
 
 div.correct {
@@ -61,7 +63,7 @@ div.incorrect {
 }
 
 #header div h1 {
-  font-size: 24px;
+  font-size: 26px;
   text-align: left;
   padding: 2px;
   padding-top: 5px;
