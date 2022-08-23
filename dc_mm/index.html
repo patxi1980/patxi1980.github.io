@@ -29,7 +29,18 @@
 
   <body>
   <header id="header">
-    <h1>Dragondle 🟩🟨⬜</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-9">
+          <h1>Dragondle 🟩🟨⬜</h1>
+        </div>
+        <div class="col" id="header_buttons">
+          <div id="help_button" >
+            <button type="button" class="btn btn-light" id="game_help">?</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
   <div id="main" class="container">
     <div id="game_final_result" class="row g-3 align-items-center">
@@ -45,7 +56,10 @@
           </div>
         </div>
         <div class="row">
-          <button type="button" class="btn btn-primary" id="game_final_result_copy_button">COPY RESULT</button>
+          <button type="button" class="btn btn-primary" id="game_final_result_copy_button">COPY RESULT TO SHARE</button>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-secondary" id="game_final_try_again">TRY AGAIN</button>
         </div>
         <div class="row">
           <a href="https://go.onelink.me/a5MQ/e5932522">
@@ -64,10 +78,27 @@
 
     <div id="game_select" class="row g-3 align-items-center">
       <div class="container" id="game_select_container">
-        <div class="row" id="game_select_container_row"></div>
+        <div class="row" id="game_select_container_row_1"></div>
+        <div class="row" id="game_select_container_row_2"></div>
       </div>
     </div>
 
+  </div>
+
+  <div id="help-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Help - Dragondle 🟩🟨⬜</h5>
+          <button type="button" class="btn btn-dark" id="help_modal_close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Lorem Ipsum</p>
+        </div>
+      </div>
+    </div>
   </div>
 
     <script src="./js/elements.js"></script>

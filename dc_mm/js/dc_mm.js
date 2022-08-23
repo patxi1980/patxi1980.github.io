@@ -1,7 +1,8 @@
 const gameFormTriesValue = 6;
 
 const gameSelect = document.getElementById('game_select');
-const gameSelectContainerRow = document.getElementById('game_select_container_row');
+const gameSelectContainerRow1 = document.getElementById('game_select_container_row_1');
+const gameSelectContainerRow2 = document.getElementById('game_select_container_row_2');
 
 const gameTriesElements = document.getElementById('game_tries_elements');
 const gameTriesElementsContainer = document.getElementById('game_tries_elements_container');
@@ -13,6 +14,9 @@ const gameFinalResultDragon = document.getElementById('game_final_result_dragon'
 const gameFinalResultElements = document.getElementById('game_final_result_elements');
 const gameFinalResultCopyText = document.getElementById('game_final_result_copy_text');
 const gameFinalResultCopyButton = document.getElementById('game_final_result_copy_button');
+const gameTryAgainButton = document.getElementById('game_final_try_again');
+const gameHelp = document.getElementById('game_help');
+const helpClose = document.getElementById('help_modal_close');
 
 let tries = 1;
 let isCalculating = false;
@@ -51,7 +55,41 @@ createGameSelectElement = function(elementId, container, elementIdPrefix, addLis
     container.append(elementObject);
 }
 
+createDeleteElement = function(container) {
+
+    deleteImage = document.createElement('img');
+    deleteImage.src = 'images/delete.png';
+    deleteImage.classList.add('mx-auto', 'd-block');
+    deleteImage.alt = 'delete';
+
+    deleteObject = document.createElement('div');
+    deleteObject.classList.add("col", "dragon_element_column")
+    deleteObject.id = 'delete_button';
+    deleteObject.append(deleteImage);
+
+    deleteObject.addEventListener('click', clickDelete);
+
+    container.append(deleteObject);
+}
+
+createExecuteElement = function(container, addListener) {
+    executeImage = document.createElement('img');
+    executeImage.src = 'images/exec.png';
+    executeImage.classList.add('mx-auto', 'd-block');
+    executeImage.alt = 'delete';
+
+    executeObject = document.createElement('div');
+    executeObject.classList.add("col", "dragon_element_column")
+    executeObject.id = 'delete_button';
+    executeObject.append(executeImage);
+
+    executeObject.addEventListener('click', clickExecute);
+
+    container.append(executeObject);
+}
+
 addElementToGrid = function(elementId) {
+
     element = getElementById(elementId);
 
     elementImage = document.createElement('img');
@@ -64,12 +102,37 @@ addElementToGrid = function(elementId) {
     elementColumn.append(elementImage);
 
     triesPos++;
+    triesPos = Math.min(5, triesPos);
+
+}
+
+removeElementToGrid = function() {
+
+    triesPos--;
+    triesPos = Math.max(1, triesPos);
+    if (triesPos == 0) {
+        return;
+    }
+
+    elementToRemove = document.getElementById("game_tries_elements_container_row_element_"+tries+"_"+triesPos);
+    if (elementToRemove && elementToRemove.childElementCount > 0) {
+        elementToRemove.removeChild(elementToRemove.childNodes[0]);
+    }
 }
 
 buildGameSelect = function(elements) {
+    let createdElements = 0;
     elements.forEach(function(element) {
-        createGameSelectElement(element, gameSelectContainerRow, 'game_select',true);
+        if (createdElements < 7) {
+            createGameSelectElement(element, gameSelectContainerRow1, 'game_select', true);
+        } else {
+            createGameSelectElement(element, gameSelectContainerRow2, 'game_select', true);
+        }
+        createdElements++;
     });
+    createDeleteElement(gameSelectContainerRow1, true);
+    createExecuteElement(gameSelectContainerRow2, true);
+
 }
 
 randomDragonPosition = function() {
@@ -88,9 +151,42 @@ generateSelectElements = function (selectElements) {
     return elementsIndex;
 }
 
+clickDelete = function(event) {
+    gtag('event', 'delete', {'event_category': 'delete', 'event_label': 'delete', 'value': 1});
+
+    if (isCalculating) {
+        return;
+    }
+
+    removeElementToGrid();
+}
+
+clickExecute = function(event) {
+
+    gtag('event', 'execute', {'event_category': 'execute', 'event_label': 'execute', 'value': 1});
+
+    if (triesPos < 5) {
+        return;
+    }
+
+    if (isCalculating) {
+        return;
+    }
+
+    checkTry();
+}
+
 clickElement = function(event) {
 
+    if (triesPos > 4) {
+        return;
+    }
+
     elementId = event.currentTarget.value;
+
+    if (elementInGrid(elementId)) {
+        return;
+    }
 
     gtag('event', 'clickElement', {'event_category': elementId, 'event_label': elementId, 'value': 1});
     gtag('event', 'click_element_'+elementId, {'event_category': elementId, 'event_label': elementId, 'value': 1});
@@ -98,9 +194,20 @@ clickElement = function(event) {
         return;
     }
     addElementToGrid(elementId);
+}
 
-    if (triesPos > 4) {
-        checkTry();
+elementInGrid = function(elementId) {
+
+    if (triesPos == 1) {
+        return false;
+    }
+
+    for (let i = 1; i < triesPos; i++) {
+        elementToCompare = document.getElementById("game_tries_elements_container_row_element_"+tries+"_"+i);
+
+        if (elementToCompare.value == elementId) {
+            return true;
+        }
     }
 }
 
@@ -158,6 +265,7 @@ showResult = function(result) {
     gameFinalResultCopyText.innerHTML = copyText;
 
     gameFinalResultCopyButton.addEventListener('click', copyResultToClipboard);
+    gameTryAgainButton.addEventListener('click', tryAgain);
 }
 
 youWin = function() {
@@ -180,6 +288,8 @@ checkTry = function() {
             numberOfOks++;
         } else if (dragonElements.includes(node.value)) {
             node.classList.add('moved');
+        } else {
+            node.classList.add('incorrect');
         }
 
     });
@@ -228,6 +338,27 @@ checkIsValidSelectedDragon = function() {
     })
 
     return true;
+}
+
+tryAgain = function(event) {
+    gtag('event', 'tryAgain', {'event_category': 'retry', 'event_label': 'retry', 'value': 1});
+
+    window.location.reload();
+}
+
+showHelp = function(event) {
+    gtag('event', 'showHelp', {'event_category': 'help', 'event_label': 'show', 'value': 1});
+
+    document.getElementById('help-modal').style.display = 'block';
+
+
+    console.log('modal');
+}
+
+closeHelp = function(event) {
+    gtag('event', 'closeHelp', {'event_category': 'help', 'event_label': 'close', 'value': 1});
+
+    document.getElementById('help-modal').style.display = 'none';
 }
 
 copyResultToClipboard = function(event) {
@@ -292,6 +423,9 @@ initGame = function() {
     buildGameSelect(selectElements);
 
     buildGrid();
+
+    gameHelp.addEventListener('click', showHelp);
+    helpClose.addEventListener('click', closeHelp);
 }
 
 clearAll = function() {

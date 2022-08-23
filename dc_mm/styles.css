@@ -38,6 +38,10 @@ div.moved {
   background-color: #c9b458;
 }
 
+div.incorrect {
+  background-color: #bbbbbb;
+}
+
 #header {
   width: 100%;
   background-color: #bbb;
@@ -45,11 +49,28 @@ div.moved {
   margin-bottom: 1px;
 }
 
-#header h1 {
-  font-size: 20px;
-  text-align: center;
+#header div.row {
+  margin-bottom: 0;
+}
+
+#header>div {
+  max-width: 360px;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header div h1 {
+  font-size: 26px;
+  text-align: left;
   padding: 2px;
   padding-top: 5px;
+}
+
+#help_button {
+  padding-left: 25px;
+  margin-top: 5px;
+  font-weight: bold;
 }
 
 .dragon_element_column {
@@ -81,7 +102,7 @@ img.mx-auto {
 }
 
 #game_select_container div.dragon_element_column {
-  width: 52px;
+  width: 42px;
   max-width: 52px;
 }
 
@@ -125,4 +146,8 @@ img.row_element_img {
 
 #game_tries_elements div.instructions {
   text-align: center;
+}
+
+#help-modal {
+  background-color: rgba(0, 0, 0, 0.5);
 }
