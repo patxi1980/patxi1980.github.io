@@ -153,3 +153,11 @@ img.row_element_img {
 #help-modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+#help-modal img.help-img-mini {
+  height: 40px;
+}
+
+img.no-border {
+  border: 0;
+}

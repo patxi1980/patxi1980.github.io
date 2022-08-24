@@ -59,7 +59,7 @@ createDeleteElement = function(container) {
 
     deleteImage = document.createElement('img');
     deleteImage.src = 'images/delete.png';
-    deleteImage.classList.add('mx-auto', 'd-block');
+    deleteImage.classList.add('mx-auto', 'd-block', 'no-border');
     deleteImage.alt = 'delete';
 
     deleteObject = document.createElement('div');
@@ -75,7 +75,7 @@ createDeleteElement = function(container) {
 createExecuteElement = function(container, addListener) {
     executeImage = document.createElement('img');
     executeImage.src = 'images/exec.png';
-    executeImage.classList.add('mx-auto', 'd-block');
+    executeImage.classList.add('mx-auto', 'd-block', 'no-border');
     executeImage.alt = 'delete';
 
     executeObject = document.createElement('div');
