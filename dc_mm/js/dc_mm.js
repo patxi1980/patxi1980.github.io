@@ -189,7 +189,6 @@ clickElement = function(event) {
     }
 
     gtag('event', 'clickElement', {'event_category': elementId, 'event_label': elementId, 'value': 1});
-    gtag('event', 'click_element_'+elementId, {'event_category': elementId, 'event_label': elementId, 'value': 1});
     if (isCalculating) {
         return;
     }
@@ -213,7 +212,6 @@ elementInGrid = function(elementId) {
 
 showResult = function(result) {
     gtag('event', 'showResult', {'event_category': result, 'event_label': result, 'value': 1});
-    gtag('event', 'show_result_'+result+'_'+tries, {'event_category': result, 'event_label': result, 'value': 1});
     gameFinalResult.style.display = 'block';
     gameTriesElements.style.display = 'none';
     gameSelect.style.display = 'none';
@@ -295,7 +293,6 @@ checkTry = function() {
     });
 
     gtag('event', 'checkTry', {'event_category': tries, 'event_label': tries, 'value': 1});
-    gtag('event', 'check_try_'+tries, {'event_category': tries, 'event_label': tries, 'value': 1});
 
     if (numberOfOks === 4) {
         return youWin();
