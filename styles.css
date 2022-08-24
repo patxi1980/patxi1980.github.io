@@ -1,0 +1,28 @@
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.container .row {
+    margin-bottom: 10px;
+}
+
+#main {
+    max-width: 360px;
+    width: 360px;
+    padding: 10px 0;
+}
+
+header {
+    padding-top: 15px;
+    font-family: inherit;
+    width: 100%;
+    background-color: #bbb;
+    border-bottom: 2px solid #000;
+    margin-bottom: 1px;
+    font-size: 80%;
+}
+
+div.lists {
+    margin-left: 10px;
+}
