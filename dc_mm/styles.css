@@ -83,11 +83,13 @@ div.incorrect {
 #game_tries_elements_container_row .dragon_element_column {
   max-width: 80px;
   width: 80px;
+  max-height: 50px;
 }
 
 #game_tries_old_elements_container_row .dragon_element_column {
   max-width: 80px;
   width: 80px;
+  max-height: 50px;
 }
 
 #game_form {
@@ -112,13 +114,18 @@ div.tries_element_row {
   max-width: 100%;
   margin-left: 2px;
   border: 1px solid black;
+  margin-bottom: 5px !important;
 }
 
 div.tries_element {
   border: 0;
   width: 90px;
   max-width: 90px;
-  height: 59px;
+  height: 45px;
+}
+
+div.tries_element img {
+  height: 45px;
 }
 
 img.row_element_img {
@@ -148,6 +155,7 @@ img.row_element_img {
 
 #game_tries_elements div.instructions {
   text-align: center;
+  font-size: 80%;
 }
 
 #help-modal {
