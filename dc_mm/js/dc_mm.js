@@ -211,7 +211,7 @@ elementInGrid = function(elementId) {
 }
 
 showResult = function(result) {
-    gtag('event', 'showResult', {'event_category': result, 'event_label': result, 'value': 1});
+    gtag('event', 'showResult', {'event_category': result, 'event_label': result+'_'+tries, 'value': 1});
     gameFinalResult.style.display = 'block';
     gameTriesElements.style.display = 'none';
     gameSelect.style.display = 'none';
