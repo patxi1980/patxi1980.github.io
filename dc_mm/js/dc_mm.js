@@ -26,6 +26,59 @@ let triesPos = 1;
 let dragon = null;
 let dragonElements = [];
 
+<<<<<<< Updated upstream
+=======
+let randomTries = 0;
+
+let userData;
+
+class UserData {
+    constructor() {
+        this.played = 0;
+        this.won = 0;
+        this.streak = 0;
+    }
+
+    setLastTry(date) {
+        this.lastTry = date;
+    }
+
+    setLastResult(lastResult) {
+        this.lastResult = lastResult;
+    }
+
+    addPlayed(){
+        this.played++;
+    }
+
+    addWon() {
+        this.won++;
+    }
+
+    addStreak() {
+        this.streak++;
+    }
+
+    clearStreak() {
+        this.streak = 0;
+    }
+
+    buildFromJson(json) {
+        let data = JSON.parse(json);
+        this.played = data.played;
+        this.won = data.won;
+        this.streak = data.streak;
+        this.lastTry = data.lastTry;
+        this.lastResult = data.lastResult;
+    }
+
+    toJson() {
+        return JSON.stringify(this);
+    }
+
+}
+
+>>>>>>> Stashed changes
 getElementById = function (elementId) {
     for (i = 0; i < elements.length; i++) {
         if (elements[i].element == elementId) {
@@ -395,6 +448,11 @@ buildGrid = function() {
 }
 
 initGame = function() {
+
+    userData = new UserData();
+
+    
+    userData
 
     gtag('event', 'initGame', {'event_category': 'initGame', 'event_label': 'initGame', 'value': 1});
     gameFinalResult.style.display = 'none';
