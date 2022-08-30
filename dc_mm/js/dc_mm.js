@@ -14,7 +14,6 @@ const gameFinalResultDragon = document.getElementById('game_final_result_dragon'
 const gameFinalResultElements = document.getElementById('game_final_result_elements');
 const gameFinalResultCopyText = document.getElementById('game_final_result_copy_text');
 const gameFinalResultCopyButton = document.getElementById('game_final_result_copy_button');
-const gameTryAgainButton = document.getElementById('game_final_try_again');
 const gameHelp = document.getElementById('game_help');
 const helpClose = document.getElementById('help_modal_close');
 
@@ -25,6 +24,8 @@ let triesPos = 1;
 
 let dragon = null;
 let dragonElements = [];
+
+let randomTries = 0;
 
 getElementById = function (elementId) {
     for (i = 0; i < elements.length; i++) {
@@ -135,8 +136,25 @@ buildGameSelect = function(elements) {
 
 }
 
+buildDateInteger = function() {
+
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = ("0" + (date.getMonth() +1)).slice(-2);
+    let day = ("0" + (date.getDate())).slice(-2);
+
+    return parseInt(day + month + year);
+}
+
 randomDragonPosition = function() {
-    return Math.floor(Math.random() * (dragons.length));
+
+    let date = buildDateInteger();
+
+    let chosenDragon = (parseInt(date) + randomTries) % (dragons.length);
+
+    randomTries++;
+
+    return chosenDragon;
 }
 
 getRandomElementPosition = function () {
@@ -263,7 +281,6 @@ showResult = function(result) {
     gameFinalResultCopyText.innerHTML = copyText;
 
     gameFinalResultCopyButton.addEventListener('click', copyResultToClipboard);
-    gameTryAgainButton.addEventListener('click', tryAgain);
 }
 
 youWin = function() {
@@ -310,6 +327,7 @@ checkTry = function() {
 
 selectDragon = function() {
     dragonPosition = randomDragonPosition();
+
     dragon = dragons[dragonPosition];
     dragonElements = convertDragonElements(dragon.attributes);
 
@@ -337,19 +355,10 @@ checkIsValidSelectedDragon = function() {
     return true;
 }
 
-tryAgain = function(event) {
-    gtag('event', 'tryAgain', {'event_category': 'retry', 'event_label': 'retry', 'value': 1});
-
-    window.location.reload();
-}
-
 showHelp = function(event) {
     gtag('event', 'showHelp', {'event_category': 'help', 'event_label': 'show', 'value': 1});
 
     document.getElementById('help-modal').style.display = 'block';
-
-
-    console.log('modal');
 }
 
 closeHelp = function(event) {
