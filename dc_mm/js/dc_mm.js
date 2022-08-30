@@ -17,6 +17,11 @@ const gameFinalResultCopyButton = document.getElementById('game_final_result_cop
 const gameHelp = document.getElementById('game_help');
 const helpClose = document.getElementById('help_modal_close');
 
+const gameStats = document.getElementById('game_stats');
+const resultClose = document.getElementById('stats_modal_close');
+
+const localStorageKey = 'dc_mm_user_data';
+
 let tries = 1;
 let isCalculating = false;
 let numberOfOks = 0;
@@ -26,6 +31,51 @@ let dragon = null;
 let dragonElements = [];
 
 let randomTries = 0;
+
+let userData;
+let alreadyPlayed = false;
+
+class UserData {
+    constructor() {
+        this.played = 0;
+        this.won = 0;
+        this.streak = 0;
+        this.lastResult = "lose";
+        this.lastResultShare = '';
+    }
+
+    addPlayed(){
+        this.played++;
+    }
+
+    addWon() {
+        this.won++;
+    }
+
+    addStreak() {
+        this.streak++;
+    }
+
+    resetStreak() {
+        this.streak = 0;
+    }
+
+    buildFromJson(json) {
+        let data = JSON.parse(json);
+        this.played = data.played;
+        this.won = data.won;
+        this.streak = data.streak;
+        this.lastResult = data.lastResult;
+        this.lastResultDate = data.lastResultDate;
+        this.lastDragon = data.lastDragon;
+        this.lastResultShare = data.lastResultShare;
+    }
+
+    toJson() {
+        return JSON.stringify(this);
+    }
+
+}
 
 getElementById = function (elementId) {
     for (i = 0; i < elements.length; i++) {
@@ -125,9 +175,9 @@ buildGameSelect = function(elements) {
     let createdElements = 0;
     elements.forEach(function(element) {
         if (createdElements < 7) {
-            createGameSelectElement(element, gameSelectContainerRow1, 'game_select', true);
+            createGameSelectElement(element, gameSelectContainerRow1, 'game_select', !alreadyPlayed);
         } else {
-            createGameSelectElement(element, gameSelectContainerRow2, 'game_select', true);
+            createGameSelectElement(element, gameSelectContainerRow2, 'game_select', !alreadyPlayed);
         }
         createdElements++;
     });
@@ -154,6 +204,8 @@ randomDragonPosition = function() {
 
     randomTries++;
 
+    console.log(chosenDragon);
+
     return chosenDragon;
 }
 
@@ -165,7 +217,7 @@ convertDragonElements = function(stringElements) {
     return stringElements.split(',');
 }
 
-generateSelectElements = function (selectElements) {
+generateSelectElements = function () {
     return elementsIndex;
 }
 
@@ -229,7 +281,13 @@ elementInGrid = function(elementId) {
 }
 
 showResult = function(result) {
-    gtag('event', 'showResult', {'event_category': result, 'event_label': result+'_'+tries, 'value': 1});
+    if (!alreadyPlayed) {
+        gtag('event', 'showResult', {'event_category': result, 'event_label': result + '_' + tries, 'value': 1});
+    } else {
+        dragon = userData.lastDragon;
+        dragonElements = convertDragonElements(userData.lastDragon.attributes);
+    }
+
     gameFinalResult.style.display = 'block';
     gameTriesElements.style.display = 'none';
     gameSelect.style.display = 'none';
@@ -261,24 +319,50 @@ showResult = function(result) {
 
     tries = Math.min(tries, gameFormTriesValue);
 
-    copyText += 'Dragondle '+triesText+'/'+gameFormTriesValue+"\n";
+    if (alreadyPlayed) {
+        copyText += userData.lastResultShare;
+    } else {
 
-    for (let i = 1; i <= tries; i++) {
+        copyText += 'Dragondle '+triesText+'/'+gameFormTriesValue+"\n";
 
-        for (let j = 1; j <= 4; j++) {
-            if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('moved')) {
-                copyText += "🟨";
-            } else if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('correct')) {
-                copyText += "🟩";
-            } else {
-                copyText += "⬜";
+        for (let i = 1; i <= tries; i++) {
+
+            for (let j = 1; j <= 4; j++) {
+                if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('moved')) {
+                    copyText += "🟨";
+                } else if (document.getElementById('game_tries_elements_container_row_element_'+i+'_'+j).classList.contains('correct')) {
+                    copyText += "🟩";
+                } else {
+                    copyText += "⬜";
+                }
             }
+            copyText += "\n";
         }
-        copyText += "\n";
     }
+
     copyText += window.location.href;
 
     gameFinalResultCopyText.innerHTML = copyText;
+
+    if (!alreadyPlayed) {
+        userData.lastResultDate = buildLastPlayedDate();
+        userData.lastResult = result;
+        userData.lastResultShare = copyText;
+        userData.lastDragon = dragon;
+        userData.addPlayed();
+
+        if (result == 'lose') {
+            userData.resetStreak();
+        } else {
+            userData.addWon();
+            userData.addStreak();
+        }
+        localStorage.setItem(localStorageKey, userData.toJson());
+
+        console.log(localStorage.getItem(localStorageKey));
+    }
+
+    console.log(copyText);
 
     gameFinalResultCopyButton.addEventListener('click', copyResultToClipboard);
 }
@@ -361,10 +445,32 @@ showHelp = function(event) {
     document.getElementById('help-modal').style.display = 'block';
 }
 
+showStats = function(event) {
+    gtag('event', 'showStats', {'event_category': 'stats', 'event_label': 'show', 'value': 1});
+
+    document.getElementById('results-played').innerHTML = userData.played;
+    document.getElementById('results-wins').innerHTML = userData.won;
+    let winPercentage = 0;
+    if (userData.played > 0) {
+        winPercentage = Math.ceil(userData.won / userData.won * 100);
+    }
+
+    document.getElementById('results-percentage').innerHTML = winPercentage + "%";
+    document.getElementById('results-streak').innerHTML = userData.streak;
+
+    document.getElementById('results-modal').style.display = 'block';
+}
+
 closeHelp = function(event) {
     gtag('event', 'closeHelp', {'event_category': 'help', 'event_label': 'close', 'value': 1});
 
     document.getElementById('help-modal').style.display = 'none';
+}
+
+closeStats = function(event) {
+    gtag('event', 'closeStats', {'event_category': 'stats', 'event_label': 'close', 'value': 1});
+
+    document.getElementById('results-modal').style.display = 'none';
 }
 
 copyResultToClipboard = function(event) {
@@ -382,6 +488,16 @@ copyResultToClipboard = function(event) {
     document.body.removeChild(myTemporaryInputElement);
 
     gameFinalResultCopyButton.textContent = 'COPIED!';
+}
+
+buildLastPlayedDate = function () {
+    let date = new Date();
+
+    let year = date.getFullYear();
+    let month = ("0" + (date.getMonth() +1)).slice(-2);
+    let day = ("0" + (date.getDate())).slice(-2);
+
+    return year + month + day;
 }
 
 buildGrid = function() {
@@ -405,10 +521,35 @@ buildGrid = function() {
 
 initGame = function() {
 
-    gtag('event', 'initGame', {'event_category': 'initGame', 'event_label': 'initGame', 'value': 1});
+    gameHelp.addEventListener('click', showHelp);
+    helpClose.addEventListener('click', closeHelp);
+
+    gameStats.addEventListener('click', showStats);
+    resultClose.addEventListener('click', closeStats);
+
+    userData = new UserData();
+
+    if (null != localStorage.getItem(localStorageKey)) {
+        userData.buildFromJson(localStorage.getItem(localStorageKey));
+    }
+
+    if (userData.lastResultDate == buildLastPlayedDate()) {
+        console.log("already played");
+        alreadyPlayed = true;
+    }
+
     gameFinalResult.style.display = 'none';
     gameTriesElements.style.display = 'block';
     gameSelect.style.display = 'block';
+
+    selectElements = generateSelectElements();
+    buildGameSelect(selectElements);
+    buildGrid();
+
+    if (alreadyPlayed) {
+        showResult(userData.lastResult);
+        return;
+    }
 
     isValidDragon = false;
     checks = 0;
@@ -422,16 +563,7 @@ initGame = function() {
         }
     }
 
-    selectElements = JSON.parse(JSON.stringify(dragonElements));
-
-    selectElements = generateSelectElements(selectElements);
-
-    buildGameSelect(selectElements);
-
-    buildGrid();
-
-    gameHelp.addEventListener('click', showHelp);
-    helpClose.addEventListener('click', closeHelp);
+    gtag('event', 'initGame', {'event_category': 'initGame', 'event_label': 'initGame', 'value': 1});
 }
 
 clearAll = function() {

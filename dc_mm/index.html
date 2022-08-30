@@ -32,13 +32,12 @@
   <header id="header">
     <div class="container">
       <div class="row">
-        <div class="col-9">
+        <div class="col-8">
           <h1><img src="images/dragondle.png" alt="Dragondle"></h1>
         </div>
         <div class="col" id="header_buttons">
-          <div id="help_button" >
-            <button type="button" class="btn btn-light" id="game_help">?</button>
-          </div>
+          <button type="button" class="btn btn-light" id="game_stats"><img src="images/stats.png" alt="stats" /></button>
+          <button type="button" class="btn btn-light" id="game_help"><img src="images/help.png" alt="help" /></button>
         </div>
       </div>
     </div>
@@ -109,6 +108,51 @@
             <li>⬜ Means that the element is not correct</li>
             <li>You have 6 tries to find the right combination</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="results-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Stats - Dragondle 🟩🟨⬜</h5>
+          <button type="button" class="btn btn-dark" id="stats_modal_close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <b>Welcome to Dragondle</b>
+          <p>Your stats so far</p>
+          <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Played
+                </th>
+                <th>
+                  Wins
+                </th>
+                <th>
+                  %
+                </th>
+                <th>
+                  Streak
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="results-played"></td>
+                <td id="results-wins"></td>
+                <td id="results-percentage"></td>
+                <td id="results-streak"></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
         </div>
       </div>
     </div>

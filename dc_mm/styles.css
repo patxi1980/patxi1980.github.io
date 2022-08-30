@@ -51,8 +51,28 @@ div.incorrect {
   margin-bottom: 1px;
 }
 
+#header h1 {
+  margin-bottom: 2px;
+}
+
 #header div.row {
   margin-bottom: 0;
+}
+
+#header_buttons {
+  padding-top: 5px;
+  align-content: end;
+}
+
+#header div.row  button {
+  background-color: white;
+  padding: 3px;
+}
+
+#header div.row div.div-button {
+  display: inline;
+  margin-top: 5px;
+  padding-top: 5px;
 }
 
 #header>div {
@@ -69,11 +89,6 @@ div.incorrect {
   padding-top: 5px;
 }
 
-#help_button {
-  padding-left: 20px;
-  margin-top: 5px;
-  font-weight: bold;
-}
 
 .dragon_element_column {
   max-width: 50px;
@@ -160,6 +175,18 @@ img.row_element_img {
 
 #help-modal {
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+#results-modal table {
+  text-align: center;
+}
+
+#results-modal table thead {
+  font-weight:bold;
+}
+
+#results-modal table tbody {
+  font-size:200%;
 }
 
 #help-modal img.help-img-mini {
