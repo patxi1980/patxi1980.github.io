@@ -569,16 +569,7 @@ initGa = function() {
     window.dataLayer = window.dataLayer || [];
 
     gtag('js', new Date());
-    gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'ads_data_redaction': 'denied',
-        'analytics_storage': 'denied',
-        'functionality_storage': 'denied',
-        'personalization_storage': 'denied',
-        'allow_google_signals': 'denied',
-        'allow_ad_personalization_signals': 'denied',
-        'security_storage': 'denied',
-    });
+
     if (window.location.href.includes('localhost')) {
         gtag('config', 'G-DKLT0JV4PF',{ 'debug_mode': true });
         console.log('debug mode on');
